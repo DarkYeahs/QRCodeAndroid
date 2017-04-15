@@ -5,10 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yeahs.www.qrcode.FeedBack">
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/titlebar"/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/feed_back_container"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_below="@id/title_bar"
         android:layout_marginTop="40dp"
         android:orientation="vertical"
         android:layout_centerInParent="true"
@@ -48,7 +55,7 @@
                 android:layout_width="240dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="60dp"
-                android:background="#14c4a0"
+                android:background="@color/colorSkyBlue"
                 android:textColor="#fff"
                 android:text="提交"/>
         </LinearLayout>

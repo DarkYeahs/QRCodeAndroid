@@ -17,11 +17,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yeahs.www.qrcode.ContactSql.ContactDatabaseHelper;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         contactDatabaseHelper = new ContactDatabaseHelper(this, "User.db", null, newVersion);
         this.createTable();
@@ -122,7 +126,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            Intent intent = new Intent(MainActivity.this, ContactEditActivity.class);
+            Intent intent = new Intent(MainActivity.this, ContactItemActivity.class);
             startActivity(intent);
             // Handle the camera actionn
         } else if (id == R.id.nav_scaner) {
@@ -141,6 +145,24 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.i("return", requestCode + "");
+        Log.i("return", resultCode + "");
+        Log.i("return", RESULT_OK + "");
+        switch (requestCode) {
+            case 111:
+                if (resultCode == RESULT_OK){
+                    String qrMsg = data.getStringExtra(CodeUtils.RESULT_STRING);
+                    Intent intent = new Intent(MainActivity.this, ContactAddConfirm.class);
+                    intent.putExtra("qrMsg", qrMsg);
+                    startActivity(intent);
+                }
+        }
+    }
+
     public void initContactList () {
         int j = 0;
         SQLiteDatabase db = contactDatabaseHelper.getWritableDatabase();

@@ -5,6 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yeahs.www.qrcode.SettingActivity">
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/titlebar"/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/setting_container"
         android:orientation="horizontal"

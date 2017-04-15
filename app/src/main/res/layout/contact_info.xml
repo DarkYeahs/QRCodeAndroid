@@ -4,14 +4,21 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center">
+    <RelativeLayout
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <include layout="@layout/titlebar"/>
+    </RelativeLayout>
     <LinearLayout
         android:id="@+id/user_icon_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="20dp"
         android:orientation="vertical"
+        android:layout_below="@+id/title_bar"
         android:layout_centerHorizontal="true">
-        <ImageView
+        <com.yeahs.www.qrcode.imageview.CircleImageView
             android:id="@+id/user_icon"
             android:layout_width="150dp"
             android:layout_height="150dp"

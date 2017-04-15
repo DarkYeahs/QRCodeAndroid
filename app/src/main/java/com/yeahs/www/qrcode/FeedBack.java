@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.yeahs.www.qrcode.dialog.LoadingDialog;
@@ -23,6 +25,8 @@ import butterknife.OnFocusChange;
 public class FeedBack extends AppCompatActivity {
     LoadingDialog loadingDialog = null;
     @BindView(R.id.feed_back_text) EditText feedback_content;
+    @BindView(R.id.text_title) TextView title;
+    @BindView(R.id.button_backward) Button back;
     private Timer timer;
     private TimerTask task;
     @Override
@@ -30,6 +34,9 @@ public class FeedBack extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_back);
         ButterKnife.bind(this);
+        back.setText("返回");
+        back.setVisibility(View.VISIBLE);
+        title.setText("意见反馈");
         loadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
     }
     @OnFocusChange(R.id.feed_back_text)
@@ -81,7 +88,10 @@ public class FeedBack extends AppCompatActivity {
 //            }
 //        });
     }
-
+    @OnClick(R.id.button_backward)
+    protected void back () {
+        finish();
+    }
     @Override
     protected void onStop() {
         super.onStop();
