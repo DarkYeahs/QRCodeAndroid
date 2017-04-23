@@ -10,7 +10,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+//忘记密码
 public class PasswordForgetActivity extends AppCompatActivity {
     @BindView(R.id.email) EditText email;
     @BindView(R.id.password) EditText password;

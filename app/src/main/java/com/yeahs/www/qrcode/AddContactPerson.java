@@ -10,6 +10,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+//添加联系人
 public class AddContactPerson extends AppCompatActivity {
 
     @BindView(R.id.text_title) TextView title;

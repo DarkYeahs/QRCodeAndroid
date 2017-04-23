@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+//二维码扫描结果处理
 
 public class ContactAddConfirm extends AppCompatActivity {
     @BindView(R.id.name_value) TextView nameValue;
@@ -58,7 +59,7 @@ public class ContactAddConfirm extends AppCompatActivity {
         finish();
     }
 }
-
+//联系人信息类
 class Contact {
     public String name;
     public String mobile;

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+//登录
 public class loginActivity extends AppCompatActivity {
 
     @BindView(R.id.password) EditText password;

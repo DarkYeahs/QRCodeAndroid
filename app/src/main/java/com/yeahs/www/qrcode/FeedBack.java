@@ -21,7 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnFocusChange;
-
+//帮助反馈类
 public class FeedBack extends AppCompatActivity {
     LoadingDialog loadingDialog = null;
     @BindView(R.id.feed_back_text) EditText feedback_content;

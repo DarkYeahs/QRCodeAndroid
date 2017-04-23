@@ -11,7 +11,7 @@ import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+//设置
 public class SettingActivity extends AppCompatActivity {
 
     @BindView(R.id.update_check) Button update_check_btn;
