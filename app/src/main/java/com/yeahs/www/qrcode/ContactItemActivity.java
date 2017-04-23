@@ -29,7 +29,7 @@ import com.yeahs.www.qrcode.ContactSql.ContactDatabaseHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+//联系人信息展示类
 public class ContactItemActivity extends AppCompatActivity {
     @BindView(R.id.contact_person_icon) ImageView iconImage;
     @BindView(R.id.button_backward) Button back;

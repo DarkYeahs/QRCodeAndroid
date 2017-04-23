@@ -10,8 +10,7 @@ import android.widget.Toast;
 /**
  * Created by lenovo on 2017/3/28.
  */
-
-
+//数据库的创建，操作，SQLite,
 public class ContactDatabaseHelper extends SQLiteOpenHelper {
     private final static String TAG = "SqliteTest";
     private Context mContext;

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * Created by lenovo on 2017/3/20.
  */
-
+//自定义一个适配器给listview赋值
 public class ContactAdapter extends ArrayAdapter {
     private int resourceid;
     public ContactAdapter (Context context, int textviewResource, List<ContactPerson> objects) {

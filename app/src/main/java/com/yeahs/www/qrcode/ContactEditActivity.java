@@ -27,7 +27,7 @@ import butterknife.OnClick;
 /**
  * Created by lenovo on 2017/3/23.
  */
-
+//联系人编辑页面，自己信息编辑
 public class ContactEditActivity extends AppCompatActivity {
 //    @BindView(R.id.button_forward) Button handle;
     @BindView(R.id.button_backward) Button back;

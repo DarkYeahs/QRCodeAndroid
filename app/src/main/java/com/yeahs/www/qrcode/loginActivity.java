@@ -26,7 +26,7 @@ import com.yeahs.www.qrcode.network.LoginService;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+//登录
 public class loginActivity extends AppCompatActivity {
 
     @BindView(R.id.password) EditText passwordView;

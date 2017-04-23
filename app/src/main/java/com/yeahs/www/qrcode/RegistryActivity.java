@@ -21,7 +21,7 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+//注册
 public class RegistryActivity extends AppCompatActivity {
     @BindView(R.id.email) EditText email;
     @BindView(R.id.password) EditText password;

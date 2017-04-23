@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
+//启动页
 public class startActivity extends AppCompatActivity {
 
     private Timer timer;
