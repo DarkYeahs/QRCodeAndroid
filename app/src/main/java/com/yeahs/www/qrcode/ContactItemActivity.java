@@ -16,6 +16,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.PopupWindow;
@@ -33,14 +34,33 @@ public class ContactItemActivity extends AppCompatActivity {
     @BindView(R.id.contact_person_icon) ImageView iconImage;
     @BindView(R.id.button_backward) Button back;
     @BindView(R.id.text_title) TextView title;
+    @BindView(R.id.name_value) TextView nameView;
+    @BindView(R.id.mobile_value) TextView mobileView;
+    @BindView(R.id.remark_value) TextView remarkView;
+    @BindView(R.id.email_value) TextView emailView;
+    @BindView(R.id.company_value) TextView companyView;
+    @BindView(R.id.job_value) TextView jobView;
+    @BindView(R.id.homepage_value) TextView homepageView;
+    @BindView(R.id.company_address_value) TextView companyAddressView;
     @BindView(R.id.button_forward) Button handle;
-//    @BindView(R.id.pop_icon) ImageView popIconImage;
     private final static String TAG = "SqliteTest";
     private ContactDatabaseHelper dbHelper;
     private static int newVersion = 1;
+    private ContactPerson contactPerson = null;
     protected ImageView popIconImage = null;
     public Bitmap mBitmap = null;
     private PopupWindow mPopupWindow;
+    private String id = "";
+    private String cuid = "";
+    private String name = "";
+    private int imagesrc = 0;
+    private String company = "";
+    private String company_address = "";
+    private String email = "";
+    private String job = "";
+    private String mobile = "";
+    private String homepage = "";
+    private String remark = "";
     private String iconText = "{\"name\": \"Ye抽我抽我抽我ahs\",\"mobile\": \"93202983\",\"remark\": \"nwd财务处往往成为kn\",\"company\": \"测试公司\",\"job\": \"测试错误错误错误错误职位\",\"homepage\": \"测试职财务处我看我能看位\",\"addr\": \"侧hi持物会常务会成为hi贺成为测测为此我擦我擦我擦词我吃完iu\",\"userid\": \"cne92ei2ndiu2h3d2dj92q\"}";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,19 +69,39 @@ public class ContactItemActivity extends AppCompatActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_contact_item);
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        cuid = intent.getStringExtra("cuid");
+        name = intent.getStringExtra("name");
+        imagesrc = intent.getIntExtra("imagesrc", 10);
+        company = intent.getStringExtra("company");
+        company_address = intent.getStringExtra("company_address");
+        email = intent.getStringExtra("email");
+        job = intent.getStringExtra("job");
+        mobile = intent.getStringExtra("mobile");
+        homepage = intent.getStringExtra("homepage");
+        remark = intent.getStringExtra("remark");
         back.setVisibility(View.VISIBLE);
         handle.setVisibility(View.VISIBLE);
-        title.setText("张丽蓉");
+        title.setText(name);
         handle.setText("编辑");
-        mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.person));
+        nameView.setText(name);
+        mobileView.setText(mobile);
+        remarkView.setText(remark);
+        emailView.setText(email);
+        companyView.setText(company);
+        jobView.setText(job);
+        homepageView.setText(homepage);
+        companyAddressView.setText(company_address);
+        mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), imagesrc));
         iconImage.setImageBitmap(mBitmap);
         View popupView = getLayoutInflater().inflate(R.layout.popupwindow, null);
         mPopupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setTouchable(true);
         mPopupWindow.setOutsideTouchable(true);
         mPopupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-        dbHelper = new ContactDatabaseHelper(this, "User.db", null, newVersion);
-        this.queryData();
+//        dbHelper = new ContactDatabaseHelper(this, "User.db", null, newVersion);
+//        this.queryData();
     }
 
     public void queryData() {
@@ -90,6 +130,17 @@ public class ContactItemActivity extends AppCompatActivity {
     protected void editBtn () {
         Log.i("edit_btn", "正在点击编辑按钮");
         Intent intent = new Intent(ContactItemActivity.this, ContactEditActivity.class);
+        intent.putExtra("id",id);
+        intent.putExtra("cuid", cuid);
+        intent.putExtra("name", name);
+        intent.putExtra("imagesrc", imagesrc);
+        intent.putExtra("company", company);
+        intent.putExtra("company_address", company_address);
+        intent.putExtra("email", email);
+        intent.putExtra("job", job);
+        intent.putExtra("mobile", mobile);
+        intent.putExtra("homepage", homepage);
+        intent.putExtra("remark", remark);
         startActivity(intent);
     }
     @OnClick(R.id.contact_person_icon)

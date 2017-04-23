@@ -3,6 +3,7 @@ package com.yeahs.www.qrcode;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.Editable;
@@ -23,13 +24,23 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.yeahs.www.qrcode.ContactSql.ContactDatabaseHelper;
 
 import com.uuzuche.lib_zxing.activity.CaptureActivity;
+import com.yeahs.www.qrcode.ContactSql.UserDataHelper;
+import com.yeahs.www.qrcode.network.ContactService;
+import com.yeahs.www.qrcode.network.SelfCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,11 +53,15 @@ public class MainActivity extends AppCompatActivity
     private List<ContactPerson> searchContactList = new ArrayList<>();
 //    private TextView search_text;
     private ContactAdapter contactAdapter;
-    private ContactDatabaseHelper contactDatabaseHelper;
-    private final static String TAG = "SqliteTest";
+//    private ContactDatabaseHelper contactDatabaseHelper;
+    private UserDataHelper userDataHelper = null;
+//    private final static String TAG = "SqliteTest";
+    private ContactService contactService = null;
     @BindView(R.id.search_edit) EditText search_text;
     @BindView(R.id.contact_list) ListView listView;
     @BindView(R.id.search_text_container) LinearLayout mainContent;
+    protected TextView user_name = null;
+    private  NavigationView navigationView = null;
     /**
      * 扫描跳转Activity RequestCode
      */
@@ -56,27 +71,22 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View headerLayout = navigationView.inflateHeaderView(R.layout.nav_header_main);
+        user_name = (TextView) headerLayout.findViewById(R.id.user_name);
+        contactService = new ContactService(this);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
-        contactDatabaseHelper = new ContactDatabaseHelper(this, "User.db", null, newVersion);
-        this.createTable();
+        userDataHelper = new UserDataHelper(this, "User.db", null, newVersion);
+        createTable();
+        getUserInfo();
         ButterKnife.bind(this);
         init();
         initContactList();
-        Log.w("contact_size", contactList.get(0).getName());
         contactAdapter = new ContactAdapter(MainActivity.this, R.layout.contact_person_item, contactList);
         Log.w("adapt",  contactAdapter.getCount() + "");
         listView.setAdapter(contactAdapter);
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -97,13 +107,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-
+    private void getUserInfo () {
+        SQLiteDatabase db = userDataHelper.getReadableDatabase();
+        Cursor cursor = db.query("user", null, null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            user_name.setText(name);
+            Log.i("login", cursor.getString(cursor.getColumnIndex("name")));
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -149,14 +161,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.i("return", requestCode + "");
-        Log.i("return", resultCode + "");
-        Log.i("return", RESULT_OK + "");
         switch (requestCode) {
             case 111:
                 if (resultCode == RESULT_OK){
                     String qrMsg = data.getStringExtra(CodeUtils.RESULT_STRING);
-                    Intent intent = new Intent(MainActivity.this, ContactAddConfirm.class);
+                    Intent   intent = new Intent(MainActivity.this, ContactAddConfirm.class);
                     intent.putExtra("qrMsg", qrMsg);
                     startActivity(intent);
                 }
@@ -164,37 +173,76 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void initContactList () {
-        int j = 0;
-        SQLiteDatabase db = contactDatabaseHelper.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        for (int i = 0; i < 20 ; i++) {
-            ContactPerson contactPerson = new ContactPerson("张丽蓉", R.mipmap.person, ++j);
-            values.put("username", "张丽蓉");
-            values.put("id", j);
-            db.insert("user", null, values);
-            values.clear();
-            ContactPerson contactPerson_item = new ContactPerson("陈业涛", R.mipmap.self, ++j);
-            values.put("username", "陈业涛");
-            values.put("id", j);
-            db.insert("user", null, values);
-            values.clear();
-            contactList.add(contactPerson);
-            contactList.add(contactPerson_item);
-        }
+        getContactList();
+//        int j = 0;
+//        SQLiteDatabase db = contactDatabaseHelper.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        for (int i = 0; i < 20 ; i++) {
+//            ContactPerson contactPerson = new ContactPerson("张丽蓉", R.mipmap.person, ++j + "");
+//            values.put("username", "张丽蓉");
+//            values.put("id", j);
+//            db.insert("user", null, values);
+//            values.clear();
+//            ContactPerson contactPerson_item = new ContactPerson("陈业涛", R.mipmap.self, ++j + "");
+//            values.put("username", "陈业涛");
+//            values.put("id", j);
+//            db.insert("user", null, values);
+//            values.clear();
+//            contactList.add(contactPerson);
+//            contactList.add(contactPerson_item);
+//        }
+    }
+    private void getContactList () {
+        contactService.getContactList(new SelfCallback() {
+            @Override
+            public void onResponse(JSONObject response) {
+                super.onResponse(response);
+                JSONArray contactList = null;
+                try {
+                    contactList = response.getJSONArray("data");
+                    Log.i("contactList", contactList.toString());
+                    for(int i = 0;i < contactList.length();i++){
+                        JSONObject contactItem = contactList.getJSONObject(i);
+                        String name = contactItem.getString("name");
+                        String id = contactItem.getString("id");
+                        String cuid = contactItem.getString("cuid");
+                        String mobile = contactItem.getString("mobile");
+                        String email = contactItem.getString("email");
+                        String homepage = contactItem.getString("homepage");
+                        String job = contactItem.getString("job");
+                        String company = contactItem.getString("company");
+                        String company_address = contactItem.getString("company_address");
+                        String remark = contactItem.getString("remark");
+                        ContactPerson contact = new ContactPerson(name, R.mipmap.person, id, cuid, email, mobile, homepage, job, company, remark, company_address);
+                        MainActivity.this.contactList.add(contact);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e("login", e.toString());
+                }
+                Log.i("getContact", response.toString());
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+            }
+
+            @Override
+            public JSONObject getParams() {
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("cuid", "cewcecwedw");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("getContactList", data.toString());
+                return data;
+            }
+        });
     }
     protected void init () {
-//        search_text = (TextView) findViewById(R.id.search_edit);
         search_text.addTextChangedListener(new SearchTextWatcher());
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-//                                    long arg3) {
-//                // TODO Auto-generated method stub
-//                Log.i("name", contactList.get(arg2).getId() + "");
-//            }
-//
-//        });
     }
     private List<ContactPerson> getNewData(String input_info) {
         //遍历list
@@ -212,8 +260,19 @@ public class MainActivity extends AppCompatActivity
     @OnItemClick(R.id.contact_list)
     protected void itemTouch (AdapterView<?> arg0, View arg1, int arg2,
                               long arg3) {
-        Log.i("name", contactList.get(arg2).getId() + "");
+        ContactPerson contactItem = contactList.get(arg2);
         Intent intent = new Intent(MainActivity.this, ContactItemActivity.class);
+        intent.putExtra("id", contactItem.getId());
+        intent.putExtra("cuid", contactItem.getCuid());
+        intent.putExtra("name", contactItem.getName());
+        intent.putExtra("imagesrc", contactItem.getImagesrc());
+        intent.putExtra("company", contactItem.getCompany());
+        intent.putExtra("company_address", contactItem.getCompany_address());
+        intent.putExtra("email", contactItem.getEmail());
+        intent.putExtra("job", contactItem.getJob());
+        intent.putExtra("mobile", contactItem.getMobile());
+        intent.putExtra("homepage", contactItem.getHomepage());
+        intent.putExtra("remark", contactItem.getRemark());
         startActivity(intent);
     }
     @Override
@@ -261,8 +320,7 @@ public class MainActivity extends AppCompatActivity
 
 
     public void createTable() {
-        Log.i(TAG, "main create table");
-        contactDatabaseHelper.getWritableDatabase();
+        userDataHelper.getWritableDatabase();
     }
 
     class SearchTextWatcher implements TextWatcher {

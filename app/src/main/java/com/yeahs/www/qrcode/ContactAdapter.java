@@ -31,7 +31,7 @@ public class ContactAdapter extends ArrayAdapter {
         ImageView contactView = (ImageView) view.findViewById(R.id.contact_person_icon);
         TextView contactName = (TextView) view.findViewById(R.id.contact_person_name);
         contactView.setImageResource(contactPerson.getImagesrc());
-        contactName.setText(contactPerson.getName());
+        contactName.setText(contactPerson.getName() + " (" + contactPerson.getCompany() + contactPerson.getJob() + ")");
         return view;
     }
 }

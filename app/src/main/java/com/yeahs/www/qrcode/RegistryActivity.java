@@ -9,6 +9,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.VolleyError;
+import com.yeahs.www.qrcode.dialog.LoadingDialog;
+import com.yeahs.www.qrcode.network.LoginService;
+import com.yeahs.www.qrcode.network.SelfCallback;
+
+import org.json.JSONObject;
+
+import java.util.Map;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -22,11 +31,14 @@ public class RegistryActivity extends AppCompatActivity {
     private String emailString = "";
     private String passwordString = "";
     private String passwordConfirmString = "";
+    private final LoginService loginService = new LoginService(this);
+    protected LoadingDialog loadingDialog = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registry);
         ButterKnife.bind(this);
+        loadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         title.setText("注册");
         back.setVisibility(View.VISIBLE);
         back.setText("返回");
@@ -55,6 +67,25 @@ public class RegistryActivity extends AppCompatActivity {
             Toast.makeText(RegistryActivity.this, "两次输入密码不相同", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        loadingDialog.show();
+        loginService.registry(new SelfCallback() {
+            @Override
+            public void onResponse(JSONObject reponse) {
+                super.onResponse(reponse);
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                super.onErrorResponse(error);
+            }
+
+            @Override
+            public JSONObject getParams() {
+                JSONObject data = new JSONObject();
+                return data;
+            }
+        });
     }
     @OnClick(R.id.button_backward)
     protected void back (){
