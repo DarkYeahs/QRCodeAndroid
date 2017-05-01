@@ -17,15 +17,15 @@
 
     <Button
         android:id="@+id/button_backward"
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:drawablePadding="6dp"
-        android:background="@color/colorSkyBlue"
+        android:background="@drawable/ic_back"
+        android:layout_centerVertical="true"
         android:ellipsize="end"
         android:gravity="center"
         android:onClick="onClick"
         android:paddingLeft="5dp"
-        android:text="返回"
         android:textColor="#ffffffff"
         android:textSize="18dp"
         android:visibility="invisible" />

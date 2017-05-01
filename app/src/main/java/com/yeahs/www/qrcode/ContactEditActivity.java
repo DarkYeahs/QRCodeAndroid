@@ -124,7 +124,6 @@ public class ContactEditActivity extends BaseActivity {
         jobView.setText(job);
         homepageView.setText(homepage);
         companyAddressView.setText(company_address);
-        back.setText("返回");
         confirmBtn.setText("确认");
         ImageRequest imageRequest = new ImageRequest("http://172.20.10.3:4000/static/static/out.png",
                 new Response.Listener<Bitmap>() {
@@ -260,6 +259,7 @@ public class ContactEditActivity extends BaseActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         super.onErrorResponse(error);
+                        Toast.makeText(ContactEditActivity.this, "网络问题，请重试", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override

@@ -98,6 +98,13 @@ public class ContactItemActivity extends BaseActivity {
                 mobile = item.getMobile();
                 homepage = item.getHomepage();
                 remark = item.getRemark();
+                if (imagesrc.equals("null")) {
+                    mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.person));
+                    iconImage.setImageBitmap(mBitmap);
+                }
+                else {
+
+                }
                 break;
             case 2:
                 id = intent.getStringExtra("id");
@@ -126,13 +133,6 @@ public class ContactItemActivity extends BaseActivity {
         jobView.setText(job);
         homepageView.setText(homepage);
         companyAddressView.setText(company_address);
-        if (imagesrc.equals("null")) {
-            mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.person));
-            iconImage.setImageBitmap(mBitmap);
-        }
-        else {
-
-        }
         View popupView = getLayoutInflater().inflate(R.layout.popupwindow, null);
         mPopupWindow = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, true);
         mPopupWindow.setTouchable(true);

@@ -8,8 +8,8 @@ import android.app.Activity;
 
 public class UserService {
     public static baseService baseService = null;
-    private static final String getUserInfoUrl = "http://172.20.10.3:4000/user/getuserinfo";
-    private static final String editUserInfoUrl = "http://172.20.10.3:4000/user/editUserInfo";
+    private static final String getUserInfoUrl = "http://192.168.1.124:4000/user/getuserinfo";
+    private static final String editUserInfoUrl = "http://192.168.1.124:4000/user/editUserInfo";
     public UserService (Activity activity) {
         baseService = new baseService(activity);
     }

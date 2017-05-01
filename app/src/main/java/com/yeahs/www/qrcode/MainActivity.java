@@ -372,8 +372,7 @@ public class MainActivity extends BaseActivity
                         String company = contactItem.getString("company");
                         String company_address = contactItem.getString("company_address");
                         String remark = contactItem.getString("remark");
-                        String icon = contactItem.getString("icon");
-                        ContactPerson contact = new ContactPerson(name, icon, id, cuid, email, mobile, homepage, job, company, remark, company_address);
+                        ContactPerson contact = new ContactPerson(name, "", id, cuid, email, mobile, homepage, job, company, remark, company_address);
                         MainActivity.this.contactList.add(contact);
                     }
                     searchContactList = MainActivity.this.contactList;

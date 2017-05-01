@@ -41,29 +41,7 @@ public class ContactAdapter extends ArrayAdapter {
         view = LayoutInflater.from(getContext()).inflate(resourceid, parent, false);
         contactView = (ImageView) view.findViewById(R.id.contact_person_icon);
         contactName = (TextView) view.findViewById(R.id.contact_person_name);
-        Log.i("login icon", contactPerson.getImagesrc());
-        if (contactPerson.getImagesrc().equals("null")) {
-            contactView.setImageResource(R.drawable.default_icon);
-        }
-        else {
-            Log.i("login", contactPerson.getImagesrc());
-            ImageRequest imageRequest = new ImageRequest(contactPerson.getImagesrc(),
-                    new Response.Listener<Bitmap>() {
-                        @Override
-                        public void onResponse(Bitmap bitmap) {
-                            // TODO Auto-generated method stub
-                            Log.i("login", "获取图片成功");
-                            contactView.setImageBitmap(bitmap);
-                                 }
-                    }, 300, 200, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError e) {
-                    e.printStackTrace();
-                    Log.i("login", "获取图片失败");
-                }
-            });
-            Volley.newRequestQueue(getContext()).add(imageRequest);
-        }
+        contactView.setImageResource(R.drawable.default_icon);
         contactName.setText(contactPerson.getName() + " (" + contactPerson.getCompany() + contactPerson.getJob() + ")");
         return view;
     }

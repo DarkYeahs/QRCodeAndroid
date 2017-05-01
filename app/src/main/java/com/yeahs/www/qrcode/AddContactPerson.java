@@ -57,7 +57,6 @@ public class AddContactPerson extends AppCompatActivity {
         setContentView(R.layout.activity_add_contact_person);
         ButterKnife.bind(this);
         back.setVisibility(View.VISIBLE);
-        back.setText("返回");
         title.setText("添加联系人");
         cuid = CApplication.user.getId();
         Log.i("login", cuid);
@@ -122,6 +121,7 @@ public class AddContactPerson extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     super.onErrorResponse(error);
+                    Toast.makeText(AddContactPerson.this, "添加失败，请重试", Toast.LENGTH_SHORT).show();
                 }
 
                 @Override

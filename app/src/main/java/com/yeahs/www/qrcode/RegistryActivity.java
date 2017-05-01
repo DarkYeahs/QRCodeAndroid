@@ -43,7 +43,6 @@ public class RegistryActivity extends BaseActivity {
         loadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
         title.setText("注册");
         back.setVisibility(View.VISIBLE);
-        back.setText("返回");
         password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         passwordConfirm.setTransformationMethod(PasswordTransformationMethod.getInstance());
     }

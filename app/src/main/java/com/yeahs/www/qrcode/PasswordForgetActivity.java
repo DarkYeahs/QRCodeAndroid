@@ -44,7 +44,6 @@ public class PasswordForgetActivity extends BaseActivity {
         loginService = new LoginService(this);
         title.setText("找回密码");
         back.setVisibility(View.VISIBLE);
-        back.setText("返回");
         password.setTransformationMethod(PasswordTransformationMethod.getInstance());
         passwordConfirm.setTransformationMethod(PasswordTransformationMethod.getInstance());
     }
