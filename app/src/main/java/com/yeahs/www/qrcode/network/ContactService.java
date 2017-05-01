@@ -10,7 +10,7 @@ public class ContactService {
     public static baseService baseService = null;
     private static final String addContactUrl = "http://172.20.10.3:4000/contact/addcontact";
     private static final String editContactUrl = "http://172.20.10.3:4000/contact/editcontact";
-    private static final String delContactUrl = "";
+    private static final String delContactUrl = "http://172.20.10.3:4000/contact/delcontact";
     private static final String getContactListUrl = "http://172.20.10.3:4000/contact/getcontactlist";
     public ContactService (Activity activity) {
         baseService = new baseService(activity);

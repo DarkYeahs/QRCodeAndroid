@@ -6,7 +6,7 @@ package com.yeahs.www.qrcode;
 //联系人信息
 public class ContactPerson {
     private String name;
-    private int imagesrc;
+    private String imagesrc;
     private String id;
     private String cuid;
     private String email;
@@ -49,12 +49,14 @@ public class ContactPerson {
     private String company;
     private String remark;
     private String company_address;
-    public ContactPerson(String name, int imagesrc, String id) {
+    public ContactPerson() {}
+    public ContactPerson(String name, String imagesrc, String id) {
         this.name = name;
         this.imagesrc = imagesrc;
         this.id = id;
     }
-    public ContactPerson(String name, int imagesrc, String id, String cuid, String email, String mobile, String homepage, String job, String company, String remark, String company_address) {
+
+    public ContactPerson(String name, String imagesrc, String id, String cuid, String email, String mobile, String homepage, String job, String company, String remark, String company_address) {
         this.name = name;
         this.imagesrc = imagesrc;
         this.id = id;
@@ -75,7 +77,7 @@ public class ContactPerson {
         return name;
     }
 
-    public int getImagesrc() {
+    public String getImagesrc() {
         return imagesrc;
     }
 

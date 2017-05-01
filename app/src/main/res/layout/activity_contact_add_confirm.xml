@@ -15,6 +15,7 @@
         android:id="@+id/contact_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="50dp"
         android:orientation="vertical"
         android:layout_below="@id/title_bar"
         android:layout_centerHorizontal="true">
@@ -159,16 +160,5 @@
                 />
         </LinearLayout>
     </LinearLayout>
-    <Button
-        android:id="@+id/contact_edit_btn"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="#fff"
-        android:background="#14c4a0"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/contact_edit"
-        android:text="确定"
-        />
 </RelativeLayout>
 

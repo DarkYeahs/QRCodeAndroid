@@ -88,29 +88,6 @@
                 />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/email_item"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp" >
-            <TextView
-                android:id="@+id/email_label"
-                android:layout_width="70dp"
-                android:layout_height="50dp"
-                android:paddingRight="10dp"
-                android:gravity="right"
-                android:text="公司"/>
-            <EditText
-                android:id="@+id/email_value"
-                android:layout_width="240dp"
-                android:layout_height="40dp"
-                android:textSize="16dp"
-                android:background="@drawable/bg_edittext"
-                android:hint="请输入您的公司名称"
-                android:textCursorDrawable="@null"
-                />
-        </LinearLayout>
-        <LinearLayout
             android:id="@+id/company_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -122,14 +99,14 @@
                 android:layout_height="50dp"
                 android:paddingRight="10dp"
                 android:gravity="right"
-                android:text="职位"/>
+                android:text="公司"/>
             <EditText
                 android:id="@+id/company_value"
                 android:layout_width="240dp"
                 android:layout_height="40dp"
                 android:textSize="16dp"
                 android:background="@drawable/bg_edittext"
-                android:hint="请输入您的职位名称"
+                android:hint="请输入您的公司名称"
                 android:textCursorDrawable="@null"
                 />
         </LinearLayout>
@@ -145,14 +122,14 @@
                 android:layout_height="50dp"
                 android:paddingRight="10dp"
                 android:gravity="right"
-                android:text="个人主页"/>
+                android:text="职位"/>
             <EditText
                 android:id="@+id/job_value"
                 android:layout_width="240dp"
                 android:layout_height="40dp"
                 android:textSize="16dp"
                 android:background="@drawable/bg_edittext"
-                android:hint="请输入您的个人主页"
+                android:hint="请输入您的职位名称"
                 android:textCursorDrawable="@null"
                 />
         </LinearLayout>
@@ -168,9 +145,32 @@
                 android:layout_height="50dp"
                 android:paddingRight="10dp"
                 android:gravity="right"
-                android:text="公司地址"/>
+                android:text="个人主页"/>
             <EditText
                 android:id="@+id/homepage_value"
+                android:layout_width="240dp"
+                android:layout_height="40dp"
+                android:textSize="16dp"
+                android:background="@drawable/bg_edittext"
+                android:hint="请输入您的个人主页"
+                android:textCursorDrawable="@null"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/company_address_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="5dp" >
+            <TextView
+                android:id="@+id/company_address_label"
+                android:layout_width="70dp"
+                android:layout_height="50dp"
+                android:paddingRight="10dp"
+                android:gravity="right"
+                android:text="公司地址"/>
+            <EditText
+                android:id="@+id/company_address_value"
                 android:layout_width="240dp"
                 android:layout_height="40dp"
                 android:textSize="16dp"

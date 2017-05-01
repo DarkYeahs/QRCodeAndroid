@@ -34,7 +34,7 @@ public class ContactAddConfirm extends AppCompatActivity {
     @BindView(R.id.button_backward) Button back;
     @BindView(R.id.button_forward) Button confitmBtn;
     private String contactMsg = null;
-    private Contact contactObject = null;
+    private ContactPerson contactObject = null;
     private ContactService contactService = null;
     Gson gson = new Gson();
     @Override
@@ -51,15 +51,15 @@ public class ContactAddConfirm extends AppCompatActivity {
         contactMsg = intent.getStringExtra("qrMsg");
         Log.e("confitm", contactMsg);
         try {
-            contactObject = gson.fromJson(contactMsg, Contact.class);
-            nameValue.setText(contactObject.name);
-            title.setText(contactObject.name);
-            mobileValue.setText(contactObject.mobile);
-            remarkValue.setText(contactObject.remark);
-            companyValue.setText(contactObject.company);
-            jobValue.setText(contactObject.job);
-            addrValue.setText(contactObject.addr);
-            homepageValue.setText(contactObject.homepage);
+            contactObject = gson.fromJson(contactMsg, ContactPerson.class);
+            nameValue.setText(contactObject.getName());
+            title.setText(contactObject.getName());
+            mobileValue.setText(contactObject.getMobile());
+            remarkValue.setText(contactObject.getRemark());
+            companyValue.setText(contactObject.getCompany());
+            jobValue.setText(contactObject.getJob());
+            addrValue.setText(contactObject.getCompany_address());
+            homepageValue.setText(contactObject.getHomepage());
         } catch (Exception e) {
             Toast.makeText(ContactAddConfirm.this, "二维码格式错误", Toast.LENGTH_LONG).show();
             finish();
@@ -75,6 +75,8 @@ public class ContactAddConfirm extends AppCompatActivity {
             @Override
             public void onResponse(JSONObject reponse) {
                 super.onResponse(reponse);
+                ContactPerson item = new ContactPerson(contactObject.getName(), "", "1", contactObject.getCuid(),contactObject.getEmail(),contactObject.getMobile(), contactObject.getHomepage(), contactObject.getJob(), contactObject.getCompany(), contactObject.getRemark(), contactObject.getCompany_address());
+                CApplication.contactList.add(item);
             }
 
             @Override
@@ -86,15 +88,15 @@ public class ContactAddConfirm extends AppCompatActivity {
             public JSONObject getParams() {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("cuid", contactObject.cuid);
-                    data.put("name", contactObject.name);
-                    data.put("mobile", contactObject.mobile);
-                    data.put("email", contactObject.email);
-                    data.put("remark", contactObject.remark);
-                    data.put("company", contactObject.company);
-                    data.put("job", contactObject.job);
-                    data.put("company_address", contactObject.addr);
-                    data.put("homepage", contactObject.homepage);
+                    data.put("cuid", contactObject.getCuid());
+                    data.put("name", contactObject.getName());
+                    data.put("mobile", contactObject.getMobile());
+                    data.put("email", contactObject.getEmail());
+                    data.put("remark", contactObject.getRemark());
+                    data.put("company", contactObject.getCompany());
+                    data.put("job", contactObject.getJob());
+                    data.put("company_address", contactObject.getCompany_address());
+                    data.put("homepage", contactObject.getHomepage());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -103,16 +105,4 @@ public class ContactAddConfirm extends AppCompatActivity {
             }
         });
     }
-}
-//联系人信息类
-class Contact {
-    public String name;
-    public String email;
-    public String mobile;
-    public String remark;
-    public String company;
-    public String job;
-    public String homepage;
-    public String addr;
-    public String cuid;
 }

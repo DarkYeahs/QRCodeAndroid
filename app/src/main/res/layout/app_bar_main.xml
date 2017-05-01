@@ -26,6 +26,15 @@
                 android:textColor="#fff"
                 android:text="联系人"
                 android:textSize="20dp" />
+            <Button
+                android:id="@+id/contactSynchronize_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="同步"
+                android:background="@color/colorSkyBlue"
+                android:layout_gravity="right"/>
         </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>

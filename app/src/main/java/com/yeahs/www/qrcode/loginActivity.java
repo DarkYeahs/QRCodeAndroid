@@ -27,7 +27,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 //登录
-public class loginActivity extends AppCompatActivity {
+public class loginActivity extends BaseActivity {
 
     @BindView(R.id.password) EditText passwordView;
     @BindView(R.id.email) EditText emailView;

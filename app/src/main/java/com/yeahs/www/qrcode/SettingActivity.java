@@ -3,6 +3,7 @@ package com.yeahs.www.qrcode;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -12,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 //设置
-public class SettingActivity extends AppCompatActivity {
+public class SettingActivity extends BaseActivity {
 
     @BindView(R.id.update_check) Button update_check_btn;
     @BindView(R.id.feed_back) Button feedback_btn;
@@ -42,5 +43,12 @@ public class SettingActivity extends AppCompatActivity {
     @OnClick(R.id.button_backward)
     protected void back () {
         finish();
+    }
+    @OnClick(R.id.logout)
+    protected void logout () {
+        Log.i("login", CApplication.activitys.activities.size() + "");
+        CApplication.activitys.finishAll();
+        Intent intent = new Intent(this, loginActivity.class);
+        startActivity(intent);
     }
 }

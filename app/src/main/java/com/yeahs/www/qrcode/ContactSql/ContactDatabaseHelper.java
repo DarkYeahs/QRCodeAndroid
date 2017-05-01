@@ -20,33 +20,35 @@ public class ContactDatabaseHelper extends SQLiteOpenHelper {
         mContext = context;
     }
 
-    public static final String CREATE_USER = "create table user ("
-            + "userid integer primary key autoincrement, "
-            + "username text, "
-            + "id text)";
+    public static final String CREATE_CONTACT_USER = "CREATE TABLE `contact_user` (" +
+            "  `cuid` varchar(32) NOT NULL," +
+            "  `name` varchar(16) DEFAULT NULL," +
+            "  `mobile` varchar(20) DEFAULT NULL," +
+            "  `email` varchar(20) DEFAULT NULL," +
+            "  `homepage` varchar(64) DEFAULT NULL," +
+            "  `job` varchar(20) DEFAULT NULL," +
+            "  `company` varchar(20) DEFAULT NULL," +
+            "  `company_address` varchar(64) DEFAULT NULL," +
+            "  `remark` text" +
+            ")";
 
-    public static final String CREATE_BOOK = "create table book ("
-            + "bookid integer primary key autoincrement, "
-            + "bookname text, "
-            + "bookpage integer)";
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        Log.i(TAG, "my database helper create");
-        db.execSQL(CREATE_USER);
-        Toast.makeText(mContext, "Create succeeded", Toast.LENGTH_SHORT).show();
+        db.execSQL(CREATE_CONTACT_USER);
+        Log.i("login", "数据库创建");
     }
 
     // 升級
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.i(TAG, "oldVersion: " + oldVersion + ", newVersion: " + newVersion);
-        switch (newVersion) {
-            case 2:
-                db.execSQL(CREATE_BOOK);
-            case 1:
-                Log.i(TAG, "Hello world.");
-            default:
-        }
+//        switch (newVersion) {
+//            case 2:
+//                db.execSQL(CREATE_BOOK);
+//            case 1:
+//                Log.i(TAG, "Hello world.");
+//            default:
+//        }
     }
 }

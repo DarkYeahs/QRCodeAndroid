@@ -21,10 +21,12 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.VolleyError;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
@@ -45,23 +47,35 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.OnItemClick;
+import butterknife.OnTextChanged;
+
 //主Activity，联系人列表跟操作，同步
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private List<ContactPerson> contactList = new ArrayList<>();
     private List<ContactPerson> searchContactList = new ArrayList<>();
 //    private TextView search_text;
     private ContactAdapter contactAdapter;
-//    private ContactDatabaseHelper contactDatabaseHelper;
+    private ContactDatabaseHelper contactDatabaseHelper = null;
     private UserDataHelper userDataHelper = null;
-//    private final static String TAG = "SqliteTest";
     private ContactService contactService = null;
     @BindView(R.id.search_edit) EditText search_text;
     @BindView(R.id.contact_list) ListView listView;
     @BindView(R.id.search_text_container) LinearLayout mainContent;
     protected TextView user_name = null;
     private  NavigationView navigationView = null;
+
+    private String cuid = "";
+    private String name = "";
+    private String mobile = "";
+    private String email = "";
+    private String remark = "";
+    private String company = "";
+    private String job = "";
+    private String homepage = "";
+    private String company_address = "";
     /**
      * 扫描跳转Activity RequestCode
      */
@@ -79,13 +93,13 @@ public class MainActivity extends AppCompatActivity
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
         userDataHelper = new UserDataHelper(this, "User.db", null, newVersion);
+        contactDatabaseHelper = new ContactDatabaseHelper(this, "User.db", null, newVersion);
         createTable();
         getUserInfo();
         ButterKnife.bind(this);
-        init();
         initContactList();
+        CApplication.contactList = contactList;
         contactAdapter = new ContactAdapter(MainActivity.this, R.layout.contact_person_item, contactList);
-        Log.w("adapt",  contactAdapter.getCount() + "");
         listView.setAdapter(contactAdapter);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -112,8 +126,35 @@ public class MainActivity extends AppCompatActivity
         Cursor cursor = db.query("user", null, null, null, null, null, null);
         while (cursor.moveToNext()) {
             String name = cursor.getString(cursor.getColumnIndex("name"));
-            user_name.setText(name);
-            Log.i("login", cursor.getString(cursor.getColumnIndex("name")));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            String account = cursor.getString(cursor.getColumnIndex("account"));
+            String company = cursor.getString(cursor.getColumnIndex("company"));
+            String company_address = cursor.getString(cursor.getColumnIndex("company_address"));
+            String homepage = cursor.getString(cursor.getColumnIndex("homepage"));
+            String id = cursor.getString(cursor.getColumnIndex("uid"));
+            String job = cursor.getString(cursor.getColumnIndex("job"));
+//            int imagesrc = cursor.getInt(cursor.getColumnIndex("imagesrc"));
+            String mobile = cursor.getString(cursor.getColumnIndex("mobile"));
+            String remark = cursor.getString(cursor.getColumnIndex("remark"));
+            CApplication.user.setName(name);
+            CApplication.user.setEmail(email);
+            CApplication.user.setAccount(account);
+            CApplication.user.setCompany(company);
+            CApplication.user.setCompany_address(company_address);
+            CApplication.user.setHomepage(homepage);
+            CApplication.user.setId(id);
+            CApplication.user.setJob(job);
+//            CApplication.user.setImagesrc(imagesrc);
+            CApplication.user.setMobile(mobile);
+            CApplication.user.setRemark(remark);
+            Log.i("login name的值为", name);
+            if (name.equals("null")) {
+                user_name.setText(account);
+            }
+            else {
+                user_name.setText(name);
+            }
+            Log.i("login", CApplication.user.getName());
         }
     }
     @Override
@@ -139,6 +180,17 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             Intent intent = new Intent(MainActivity.this, ContactItemActivity.class);
+            intent.putExtra("id", CApplication.user.getId());
+            intent.putExtra("name",  CApplication.user.getName());
+            intent.putExtra("imagesrc",  CApplication.user.getImagesrc());
+            intent.putExtra("company",  CApplication.user.getCompany());
+            intent.putExtra("company_address",  CApplication.user.getCompany_address());
+            intent.putExtra("email",  CApplication.user.getEmail());
+            intent.putExtra("job",  CApplication.user.getJob());
+            intent.putExtra("mobile",  CApplication.user.getMobile());
+            intent.putExtra("homepage",  CApplication.user.getHomepage());
+            intent.putExtra("remark",  CApplication.user.getRemark());
+            intent.putExtra("type", 2);
             startActivity(intent);
             // Handle the camera actionn
         } else if (id == R.id.nav_scaner) {
@@ -172,25 +224,132 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        user_name.setText(CApplication.user.getName());
+        contactList = CApplication.contactList;
+        contactAdapter = new ContactAdapter(MainActivity.this, R.layout.contact_person_item, contactList);
+        listView.setAdapter(contactAdapter);
+
+    }
+    @OnClick(R.id.contactSynchronize_btn)
+    public void contactSynchronize () {
+        cuid = CApplication.user.getId();
+        String sqlString = "select * from contact_user where cuid = \"" + cuid + "\"";
+        Log.i("login", "cuid:" + cuid);
+        Log.i("login", "sql:" + sqlString);
+        SQLiteDatabase db = contactDatabaseHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sqlString, null);
+        Log.i("login", "本地存储的数据" + cursor.getCount());
+        if (cursor.getCount() > 0) {
+            while (cursor.moveToNext()) {
+                name = cursor.getString(cursor.getColumnIndex("name"));
+                email = cursor.getString(cursor.getColumnIndex("email"));
+                company = cursor.getString(cursor.getColumnIndex("company"));
+                company_address = cursor.getString(cursor.getColumnIndex("company_address"));
+                homepage = cursor.getString(cursor.getColumnIndex("homepage"));
+                job = cursor.getString(cursor.getColumnIndex("job"));
+                mobile = cursor.getString(cursor.getColumnIndex("mobile"));
+                remark = cursor.getString(cursor.getColumnIndex("remark"));
+
+                contactService.addContact(new SelfCallback() {
+                    @Override
+                    public void onResponse(JSONObject reponse) {
+                        super.onResponse(reponse);
+                        Toast.makeText(MainActivity.this, "同步成功", Toast.LENGTH_SHORT).show();
+//                        finish();
+                    }
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
+                    }
+
+                    @Override
+                    public JSONObject getParams(){
+                        JSONObject data = new JSONObject();
+                        try {
+                            data.put("cuid", cuid);
+                            data.put("name", name);
+                            data.put("mobile", mobile);
+                            data.put("email", email);
+                            data.put("remark", remark);
+                            data.put("company", company);
+                            data.put("job", job);
+                            data.put("company_address", company_address);
+                            data.put("homepage", homepage);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i("login", data.toString());
+                        return data;
+                    }
+                });
+            }
+            if (!cursor.moveToNext()) {
+                SQLiteDatabase dbWrite = contactDatabaseHelper.getWritableDatabase();
+                dbWrite.delete("contact_user", "cuid = ?", new String[] {cuid});
+            }
+        }
+        else {
+            Toast.makeText(this, "当前已与服务器同步", Toast.LENGTH_SHORT).show();
+        }
+    }
     public void initContactList () {
+//        contactDatabaseHelper.getWritableDatabase();
+        SQLiteDatabase db = contactDatabaseHelper.getReadableDatabase();
+        cuid = CApplication.user.getId();
+        Cursor cursor = db.query("contact_user", new String[] {"*"}, "cuid = ?", new String[] {cuid}, null, null, null);
+        Log.i("login", "本地存储的数据" + cursor.getCount());
+        while (cursor.moveToNext()) {
+            Log.i("login", "获取本地储存数据");
+            String name = cursor.getString(cursor.getColumnIndex("name"));
+            String email = cursor.getString(cursor.getColumnIndex("email"));
+            String company = cursor.getString(cursor.getColumnIndex("company"));
+            String company_address = cursor.getString(cursor.getColumnIndex("company_address"));
+            String homepage = cursor.getString(cursor.getColumnIndex("homepage"));
+            String cuid = cursor.getString(cursor.getColumnIndex("cuid"));
+            String job = cursor.getString(cursor.getColumnIndex("job"));
+            String mobile = cursor.getString(cursor.getColumnIndex("mobile"));
+            String remark = cursor.getString(cursor.getColumnIndex("remark"));
+            ContactPerson contact = new ContactPerson(name, "", "", cuid, email, mobile, homepage, job, company, remark, company_address);
+            MainActivity.this.contactList.add(contact);
+        }
         getContactList();
-//        int j = 0;
-//        SQLiteDatabase db = contactDatabaseHelper.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        for (int i = 0; i < 20 ; i++) {
-//            ContactPerson contactPerson = new ContactPerson("张丽蓉", R.mipmap.person, ++j + "");
-//            values.put("username", "张丽蓉");
-//            values.put("id", j);
-//            db.insert("user", null, values);
-//            values.clear();
-//            ContactPerson contactPerson_item = new ContactPerson("陈业涛", R.mipmap.self, ++j + "");
-//            values.put("username", "陈业涛");
-//            values.put("id", j);
-//            db.insert("user", null, values);
-//            values.clear();
-//            contactList.add(contactPerson);
-//            contactList.add(contactPerson_item);
-//        }
+    }
+    @OnTextChanged(R.id.search_edit)
+    protected void textChange () {
+        Log.w("login", "正在输入");
+        Log.i("login", "contactList的size为" + contactList.size());
+        searchContactList.clear();
+        String searchText = search_text.getText().toString();
+        Log.i("login", searchText);
+        if (searchText.equals("")) {
+            getNewData(searchText);
+            contactAdapter = new ContactAdapter(this, R.layout.contact_person_item,
+                    searchContactList);
+            listView.setAdapter(contactAdapter);
+        }
+        else {
+            contactAdapter = new ContactAdapter(this, R.layout.contact_person_item,
+                    contactList);
+            listView.setAdapter(contactAdapter);
+        }
+    }
+    private void getNewData(String input_info) {
+        //遍历list
+        Log.i("login", "contactList的长度为");
+        for (int i = 0; i < contactList.size(); i++) {
+            //如果遍历到的名字包含所输入字符串
+            Log.i("login", "循环遍历中");
+            ContactPerson item = contactList.get(i);
+            if (item.getName().contains(input_info)) {
+                //将遍历到的元素重新组成一个list
+                ContactPerson search_item = new ContactPerson(item.getName(), item.getImagesrc(), item.getId());
+                searchContactList.add(search_item);
+            }
+        }
     }
     private void getContactList () {
         contactService.getContactList(new SelfCallback() {
@@ -213,9 +372,12 @@ public class MainActivity extends AppCompatActivity
                         String company = contactItem.getString("company");
                         String company_address = contactItem.getString("company_address");
                         String remark = contactItem.getString("remark");
-                        ContactPerson contact = new ContactPerson(name, R.mipmap.person, id, cuid, email, mobile, homepage, job, company, remark, company_address);
+                        String icon = contactItem.getString("icon");
+                        ContactPerson contact = new ContactPerson(name, icon, id, cuid, email, mobile, homepage, job, company, remark, company_address);
                         MainActivity.this.contactList.add(contact);
                     }
+                    searchContactList = MainActivity.this.contactList;
+                    Log.i("login", "获得的list的长度为" + searchContactList.size());
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("login", e.toString());
@@ -232,47 +394,22 @@ public class MainActivity extends AppCompatActivity
             public JSONObject getParams() {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("cuid", "cewcecwedw");
+                    data.put("cuid", CApplication.user.getId());
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.i("getContactList", data.toString());
                 return data;
             }
         });
     }
-    protected void init () {
-        search_text.addTextChangedListener(new SearchTextWatcher());
-    }
-    private List<ContactPerson> getNewData(String input_info) {
-        //遍历list
-        for (int i = 0; i < contactList.size(); i++) {
-            ContactPerson item = contactList.get(i);
-            //如果遍历到的名字包含所输入字符串
-            if (item.getName().contains(input_info)) {
-                //将遍历到的元素重新组成一个list
-                ContactPerson search_item = new ContactPerson(item.getName(), item.getImagesrc(), item.getId());
-                searchContactList.add(search_item);
-            }
-        }
-        return searchContactList;
-    }
     @OnItemClick(R.id.contact_list)
     protected void itemTouch (AdapterView<?> arg0, View arg1, int arg2,
                               long arg3) {
-        ContactPerson contactItem = contactList.get(arg2);
+        ContactPerson contactItem = searchContactList.get(arg2);
+        Integer index = contactList.indexOf(contactItem);
         Intent intent = new Intent(MainActivity.this, ContactItemActivity.class);
-        intent.putExtra("id", contactItem.getId());
-        intent.putExtra("cuid", contactItem.getCuid());
-        intent.putExtra("name", contactItem.getName());
-        intent.putExtra("imagesrc", contactItem.getImagesrc());
-        intent.putExtra("company", contactItem.getCompany());
-        intent.putExtra("company_address", contactItem.getCompany_address());
-        intent.putExtra("email", contactItem.getEmail());
-        intent.putExtra("job", contactItem.getJob());
-        intent.putExtra("mobile", contactItem.getMobile());
-        intent.putExtra("homepage", contactItem.getHomepage());
-        intent.putExtra("remark", contactItem.getRemark());
+        intent.putExtra("index", index);
+        intent.putExtra("type", 1);
         startActivity(intent);
     }
     @Override
@@ -321,31 +458,5 @@ public class MainActivity extends AppCompatActivity
 
     public void createTable() {
         userDataHelper.getWritableDatabase();
-    }
-
-    class SearchTextWatcher implements TextWatcher {
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            Log.w("textChanged", "正在输入");
-            searchContactList.clear();
-            if (search_text.getText() != null) {
-                String input_info = search_text.getText().toString();
-                searchContactList = getNewData(input_info);
-                contactAdapter = new ContactAdapter(MainActivity.this, R.layout.contact_person_item,
-                        searchContactList);
-                listView.setAdapter(contactAdapter);
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-
-        }
     }
 }

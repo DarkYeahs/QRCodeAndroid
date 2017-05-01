@@ -37,11 +37,22 @@ public class UserDataHelper extends SQLiteOpenHelper {
             "  `company_address` varchar(64) DEFAULT NULL," +
             "  `remark` text" +
             ")";
-
+    public static final String CREATE_CONTACT_USER = "CREATE TABLE `contact_user` (" +
+            "  `cuid` varchar(32) NOT NULL," +
+            "  `name` varchar(16) DEFAULT NULL," +
+            "  `mobile` varchar(20) DEFAULT NULL," +
+            "  `email` varchar(20) DEFAULT NULL," +
+            "  `homepage` varchar(64) DEFAULT NULL," +
+            "  `job` varchar(20) DEFAULT NULL," +
+            "  `company` varchar(20) DEFAULT NULL," +
+            "  `company_address` varchar(64) DEFAULT NULL," +
+            "  `remark` text" +
+            ")";
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i(TAG, "my database helper create");
         db.execSQL(CREATE_USER);
+        db.execSQL(CREATE_CONTACT_USER);
     }
 
     @Override
