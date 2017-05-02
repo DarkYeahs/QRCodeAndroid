@@ -1,6 +1,8 @@
 package com.yeahs.www.qrcode;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,7 +27,6 @@ public class SettingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting);
         ButterKnife.bind(this);
-        back.setText("返回");
         back.setVisibility(View.VISIBLE);
         title.setText("设置");
     }
@@ -46,9 +47,25 @@ public class SettingActivity extends BaseActivity {
     }
     @OnClick(R.id.logout)
     protected void logout () {
-        Log.i("login", CApplication.activitys.activities.size() + "");
-        CApplication.activitys.finishAll();
-        Intent intent = new Intent(this, loginActivity.class);
-        startActivity(intent);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确认退出吗？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Log.i("login", CApplication.activitys.activities.size() + "");
+                CApplication.activitys.finishAll();
+                Intent intent = new Intent(SettingActivity.this, loginActivity.class);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

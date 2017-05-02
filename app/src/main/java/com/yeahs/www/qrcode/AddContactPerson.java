@@ -31,6 +31,7 @@ public class AddContactPerson extends AppCompatActivity {
 
     @BindView(R.id.text_title) TextView title;
     @BindView(R.id.button_backward) Button back;
+    @BindView(R.id.button_forward) Button save;
 
     @BindView(R.id.name_value) EditText nameView;
     @BindView(R.id.mobile_value) EditText mobileView;
@@ -57,6 +58,8 @@ public class AddContactPerson extends AppCompatActivity {
         setContentView(R.layout.activity_add_contact_person);
         ButterKnife.bind(this);
         back.setVisibility(View.VISIBLE);
+        save.setVisibility(View.VISIBLE);
+        save.setText("保存");
         title.setText("添加联系人");
         cuid = CApplication.user.getId();
         Log.i("login", cuid);
@@ -69,7 +72,7 @@ public class AddContactPerson extends AppCompatActivity {
     protected void back () {
         finish();
     }
-    @OnClick(R.id.save_btn)
+    @OnClick(R.id.button_forward)
     public void addContact () {
         name = nameView.getText().toString();
         mobile = mobileView.getText().toString();

@@ -1,6 +1,7 @@
 package com.yeahs.www.qrcode;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -98,13 +100,8 @@ public class ContactItemActivity extends BaseActivity {
                 mobile = item.getMobile();
                 homepage = item.getHomepage();
                 remark = item.getRemark();
-                if (imagesrc.equals("null")) {
-                    mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.person));
-                    iconImage.setImageBitmap(mBitmap);
-                }
-                else {
-
-                }
+                mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.ic_head));
+                iconImage.setImageBitmap(mBitmap);
                 break;
             case 2:
                 id = intent.getStringExtra("id");
@@ -171,39 +168,57 @@ public class ContactItemActivity extends BaseActivity {
     @OnClick(R.id.delete_btn)
     protected void del () {
         Log.i("login 删除的id为", id);
-        contactService.delContact(new SelfCallback(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("确认删除该联系人么？");
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
             @Override
-            public void onResponse(JSONObject reponse) {
-                super.onResponse(reponse);
-                Log.i("edit", index + "");
-                Toast.makeText(ContactItemActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
-                ContactPerson item = new ContactPerson(name, imagesrc,id, cuid,email,mobile, homepage, job, company, remark, company_address);
-                CApplication.contactList.remove(index);
-                finish();
-            }
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
 
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                super.onErrorResponse(error);
-            }
+                contactService.delContact(new SelfCallback(){
+                    @Override
+                    public void onResponse(JSONObject reponse) {
+                        super.onResponse(reponse);
+                        Log.i("edit", index + "");
+                        Toast.makeText(ContactItemActivity.this, "删除成功", Toast.LENGTH_SHORT).show();
+                        ContactPerson item = new ContactPerson(name, imagesrc,id, cuid,email,mobile, homepage, job, company, remark, company_address);
+                        CApplication.contactList.remove(index);
+                        finish();
+                    }
 
-            @Override
-            public JSONObject getParams() {
-                JSONObject data = new JSONObject();
-                try {
-                    data.put("id", id);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.i("edit", data.toString());
-                return data;
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        super.onErrorResponse(error);
+                    }
+
+                    @Override
+                    public JSONObject getParams() {
+                        JSONObject data = new JSONObject();
+                        try {
+                            data.put("id", id);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i("edit", data.toString());
+                        return data;
+                    }
+                });
             }
         });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
     @OnClick(R.id.contact_person_icon)
     protected void popImage (View  v) {
         Log.i("iconClick", "正在点击icon");
         Log.i("iconClick", v.toString());
+        if (type.equals(2)) return;
         popIconImage = (ImageView) mPopupWindow.getContentView().findViewById(R.id.pop_icon);
         RelativeLayout pop_window = (RelativeLayout) mPopupWindow.getContentView().findViewById(R.id.pop_window);
         popIconImage.setImageBitmap(mBitmap);

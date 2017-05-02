@@ -19,6 +19,7 @@ import java.util.Iterator;
 
 public class baseService {
     public static Activity selActivity = null;
+    private String baseUrl = "http://172.20.10.3:4000";
     public baseService (Activity activity) {
         selActivity = activity;
     }
@@ -37,7 +38,7 @@ public class baseService {
             }
         }
         url += "?" + param;
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, url, null,
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.GET, baseUrl + url, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -53,7 +54,7 @@ public class baseService {
     }
     public void post (String url, SelfCallback callback) {
         final SelfCallback postCallback = callback;
-        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, url, postCallback.getParams(),
+        JsonObjectRequest stringRequest = new JsonObjectRequest(Request.Method.POST, baseUrl + url, postCallback.getParams(),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

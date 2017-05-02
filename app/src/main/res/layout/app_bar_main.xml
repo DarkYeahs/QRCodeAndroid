@@ -28,12 +28,11 @@
                 android:textSize="20dp" />
             <Button
                 android:id="@+id/contactSynchronize_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="同步"
-                android:background="@color/colorSkyBlue"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/refresh"
                 android:layout_gravity="right"/>
         </android.support.v7.widget.Toolbar>
 

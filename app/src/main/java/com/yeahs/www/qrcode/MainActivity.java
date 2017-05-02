@@ -42,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -231,7 +232,6 @@ public class MainActivity extends BaseActivity
         contactList = CApplication.contactList;
         contactAdapter = new ContactAdapter(MainActivity.this, R.layout.contact_person_item, contactList);
         listView.setAdapter(contactAdapter);
-
     }
     @OnClick(R.id.contactSynchronize_btn)
     public void contactSynchronize () {
@@ -328,12 +328,13 @@ public class MainActivity extends BaseActivity
         if (searchText.equals("")) {
             getNewData(searchText);
             contactAdapter = new ContactAdapter(this, R.layout.contact_person_item,
-                    searchContactList);
+                    contactList);
             listView.setAdapter(contactAdapter);
         }
         else {
+            getNewData(searchText);
             contactAdapter = new ContactAdapter(this, R.layout.contact_person_item,
-                    contactList);
+                    searchContactList);
             listView.setAdapter(contactAdapter);
         }
     }
@@ -346,8 +347,7 @@ public class MainActivity extends BaseActivity
             ContactPerson item = contactList.get(i);
             if (item.getName().contains(input_info)) {
                 //将遍历到的元素重新组成一个list
-                ContactPerson search_item = new ContactPerson(item.getName(), item.getImagesrc(), item.getId());
-                searchContactList.add(search_item);
+                searchContactList.add(item);
             }
         }
     }
@@ -374,9 +374,8 @@ public class MainActivity extends BaseActivity
                         String remark = contactItem.getString("remark");
                         ContactPerson contact = new ContactPerson(name, "", id, cuid, email, mobile, homepage, job, company, remark, company_address);
                         MainActivity.this.contactList.add(contact);
+                        searchContactList.add(contact);
                     }
-                    searchContactList = MainActivity.this.contactList;
-                    Log.i("login", "获得的list的长度为" + searchContactList.size());
                 } catch (JSONException e) {
                     e.printStackTrace();
                     Log.e("login", e.toString());

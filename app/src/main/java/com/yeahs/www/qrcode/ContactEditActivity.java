@@ -125,22 +125,6 @@ public class ContactEditActivity extends BaseActivity {
         homepageView.setText(homepage);
         companyAddressView.setText(company_address);
         confirmBtn.setText("确认");
-        ImageRequest imageRequest = new ImageRequest("http://172.20.10.3:4000/static/static/out.png",
-                new Response.Listener<Bitmap>() {
-                    @Override
-                    public void onResponse(Bitmap bitmap) {
-                        // TODO Auto-generated method stub
-                        Log.i("login", "获取图片成功");
-                        avatar.setImageBitmap(bitmap);
-                    }
-                }, 300, 200, Bitmap.Config.ARGB_8888, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError e) {
-                e.printStackTrace();
-                Log.i("login", "获取图片失败");
-            }
-        });
-        Volley.newRequestQueue(this).add(imageRequest);
         title.setText(name);
     }
     @OnClick(R.id.button_backward)

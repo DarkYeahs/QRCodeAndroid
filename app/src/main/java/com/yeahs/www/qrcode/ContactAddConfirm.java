@@ -43,7 +43,6 @@ public class ContactAddConfirm extends AppCompatActivity {
         setContentView(R.layout.activity_contact_add_confirm);
         ButterKnife.bind(this);
         contactService = new ContactService(this);
-        back.setText("返回");
         confitmBtn.setText("确认");
         confitmBtn.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);

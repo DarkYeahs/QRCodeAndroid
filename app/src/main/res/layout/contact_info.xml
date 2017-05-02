@@ -17,7 +17,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="50dp">
+            android:paddingBottom="50dp"
+            android:paddingTop="20dp">
             <LinearLayout
                 android:id="@+id/user_icon_container"
                 android:layout_width="wrap_content"
@@ -29,7 +30,7 @@
                     android:id="@+id/user_icon"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:src="@mipmap/person"/>
+                    android:src="@drawable/ic_head"/>
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/contact_edit"
@@ -47,10 +48,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/name_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="姓名"/>
                     <EditText
                         android:id="@+id/name_value"
@@ -70,10 +71,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/mobile_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="电话"/>
                     <EditText
                         android:id="@+id/mobile_value"
@@ -93,10 +94,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/remark_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="备注"/>
                     <EditText
                         android:id="@+id/remark_value"
@@ -116,10 +117,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/email_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="邮箱"/>
                     <EditText
                         android:id="@+id/email_value"
@@ -139,10 +140,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/company_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="公司"/>
                     <EditText
                         android:id="@+id/company_value"
@@ -162,10 +163,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/job_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="职位"/>
                     <EditText
                         android:id="@+id/job_value"
@@ -185,10 +186,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/homepage_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="个人主页"/>
                     <EditText
                         android:id="@+id/homepage_value"
@@ -208,10 +209,10 @@
                     android:paddingTop="5dp" >
                     <TextView
                         android:id="@+id/company_address_label"
-                        android:layout_width="70dp"
-                        android:layout_height="50dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
                         android:paddingRight="10dp"
-                        android:gravity="right"
+                        android:gravity="center_vertical|right"
                         android:text="公司地址"/>
                     <EditText
                         android:id="@+id/company_address_value"

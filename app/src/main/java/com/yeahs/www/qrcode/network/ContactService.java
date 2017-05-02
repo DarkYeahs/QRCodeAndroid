@@ -8,10 +8,10 @@ import android.app.Activity;
 
 public class ContactService {
     public static baseService baseService = null;
-    private static final String addContactUrl = "http://192.168.1.124:4000/contact/addcontact";
-    private static final String editContactUrl = "http://192.168.1.124:4000/contact/editcontact";
-    private static final String delContactUrl = "http://192.168.1.124:4000/contact/delcontact";
-    private static final String getContactListUrl = "http://192.168.1.124:4000/contact/getcontactlist";
+    private static final String addContactUrl = "/contact/addcontact";
+    private static final String editContactUrl = "/contact/editcontact";
+    private static final String delContactUrl = "/contact/delcontact";
+    private static final String getContactListUrl = "/contact/getcontactlist";
     public ContactService (Activity activity) {
         baseService = new baseService(activity);
     }

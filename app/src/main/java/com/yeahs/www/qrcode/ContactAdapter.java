@@ -41,7 +41,7 @@ public class ContactAdapter extends ArrayAdapter {
         view = LayoutInflater.from(getContext()).inflate(resourceid, parent, false);
         contactView = (ImageView) view.findViewById(R.id.contact_person_icon);
         contactName = (TextView) view.findViewById(R.id.contact_person_name);
-        contactView.setImageResource(R.drawable.default_icon);
+        contactView.setImageResource(R.drawable.ic_head);
         contactName.setText(contactPerson.getName() + " (" + contactPerson.getCompany() + contactPerson.getJob() + ")");
         return view;
     }

@@ -34,7 +34,6 @@ public class FeedBack extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed_back);
         ButterKnife.bind(this);
-        back.setText("返回");
         back.setVisibility(View.VISIBLE);
         title.setText("意见反馈");
         loadingDialog = new LoadingDialog(this, R.style.LoadingDialog);
