@@ -41,6 +41,11 @@ public class SettingActivity extends BaseActivity {
         Intent intent = new Intent(SettingActivity.this, FeedBack.class);
         startActivity(intent);
     }
+    @OnClick(R.id.password_fixed)
+    protected void password_fixed () {
+        Intent intent = new Intent(SettingActivity.this, PasswordFixedActivity.class);
+        startActivity(intent);
+    }
     @OnClick(R.id.button_backward)
     protected void back () {
         finish();

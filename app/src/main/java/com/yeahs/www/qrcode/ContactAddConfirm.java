@@ -76,11 +76,14 @@ public class ContactAddConfirm extends AppCompatActivity {
                 super.onResponse(reponse);
                 ContactPerson item = new ContactPerson(contactObject.getName(), "", "1", contactObject.getCuid(),contactObject.getEmail(),contactObject.getMobile(), contactObject.getHomepage(), contactObject.getJob(), contactObject.getCompany(), contactObject.getRemark(), contactObject.getCompany_address());
                 CApplication.contactList.add(item);
+                Toast.makeText(ContactAddConfirm.this, "添加成功", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
             public void onErrorResponse(VolleyError error) {
                 super.onErrorResponse(error);
+                Toast.makeText(ContactAddConfirm.this, "网络问题，请重试", Toast.LENGTH_SHORT).show();
             }
 
             @Override

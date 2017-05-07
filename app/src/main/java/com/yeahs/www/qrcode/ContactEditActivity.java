@@ -124,7 +124,8 @@ public class ContactEditActivity extends BaseActivity {
         jobView.setText(job);
         homepageView.setText(homepage);
         companyAddressView.setText(company_address);
-        confirmBtn.setText("确认");
+        confirmBtn.setText("");
+        confirmBtn.setBackgroundResource(R.drawable.right);
         title.setText(name);
     }
     @OnClick(R.id.button_backward)
@@ -154,6 +155,7 @@ public class ContactEditActivity extends BaseActivity {
                         ContactPerson item = new ContactPerson(name, imagesrc,id, cuid,email,mobile, homepage, job, company, remark, company_address);
                         CApplication.contactList.set(index, item);
                         intent.putExtra("id",id);
+
                         intent.putExtra("cuid", cuid);
                         intent.putExtra("name", name);
                         intent.putExtra("imagesrc", imagesrc);
@@ -177,10 +179,6 @@ public class ContactEditActivity extends BaseActivity {
                     @Override
                     public JSONObject getParams() {
                         JSONObject data = new JSONObject();
-                        ByteArrayOutputStream bStream = new ByteArrayOutputStream();
-                        avatarBitmap.compress(Bitmap.CompressFormat.PNG,100,bStream);
-                        byte[] bytes = bStream.toByteArray();
-                        String avatarBitmapString = Base64.encodeToString(bytes,Base64.DEFAULT);
                         try {
                             data.put("id", id);
                             data.put("cuid", cuid);
@@ -192,7 +190,6 @@ public class ContactEditActivity extends BaseActivity {
                             data.put("job", job);
                             data.put("company_address", company_address);
                             data.put("homepage", homepage);
-                            data.put("avatarBitmap", avatarBitmapString);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

@@ -48,6 +48,17 @@
                 android:textAlignment="center" />
 
             <Button
+                android:id="@+id/password_fixed"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/colorSkyBlue"
+                android:textColor="#fff"
+                android:text="修改密码"
+                android:textAlignment="center" />
+
+            <Button
                 android:id="@+id/logout"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"

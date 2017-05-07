@@ -55,16 +55,19 @@ public class startActivity extends BaseActivity {
                         if (code.equals(0)) {
                             Intent intent = new Intent(startActivity.this, MainActivity.class);
                             startActivity(intent);
+                            startActivity.this.finish();
                         }else {;
                             Intent intent = new Intent(startActivity.this, loginActivity.class);
                             startActivity(intent);
+                            startActivity.this.finish();
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
                         Intent intent = new Intent(startActivity.this, loginActivity.class);
                         startActivity(intent);
+                        startActivity.this.finish();
                     }
-                    finish();
+                    startActivity.this.finish();
                 }
 
                 @Override

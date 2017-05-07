@@ -74,7 +74,8 @@ public class ContactItemActivity extends BaseActivity {
     private String remark = "";
     private Integer type = null;
     private Integer index = null;
-    private String iconText = "{\"name\": \"Ye抽我抽我抽我ahs\",\"mobile\": \"93202983\",\"remark\": \"nwd财务处往往成为kn\",\"company\": \"测试公司\",\"job\": \"测试错误错误错误错误职位\",\"homepage\": \"测试职财务处我看我能看位\",\"addr\": \"侧hi持物会常务会成为hi贺成为测测为此我擦我擦我擦词我吃完iu\",\"userid\": \"cne92ei2ndiu2h3d2dj92q\"}";
+    private String iconText = "";
+            //"{\"name\": \"Ye抽我抽我抽我ahs\",\"mobile\": \"93202983\",\"remark\": \"nwd财务处往往成为kn\",\"company\": \"测试公司\",\"job\": \"测试错误错误错误错误职位\",\"homepage\": \"测试职财务处我看我能看位\",\"addr\": \"侧hi持物会常务会成为hi贺成为测测为此我擦我擦我擦词我吃完iu\",\"userid\": \"cne92ei2ndiu2h3d2dj92q\"}";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "contactItemActivity create");
@@ -100,8 +101,6 @@ public class ContactItemActivity extends BaseActivity {
                 mobile = item.getMobile();
                 homepage = item.getHomepage();
                 remark = item.getRemark();
-                mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.ic_head));
-                iconImage.setImageBitmap(mBitmap);
                 break;
             case 2:
                 id = intent.getStringExtra("id");
@@ -118,10 +117,24 @@ public class ContactItemActivity extends BaseActivity {
                 del_btn.setVisibility(View.INVISIBLE);
                 break;
         }
+        iconText = "{" +
+                "\"cuid\":" + cuid + "," +
+                "\"company\":" + company + "," +
+                "\"company_address\":" + company_address  + "," +
+                "\"name\":" + name +"," +
+                "\"remark\":" + remark + "," +
+                "\"homepage\":" + homepage + "," +
+                "\"job\":" + job + "," +
+                "\"email\":" + email + "," +
+                "\"mobile\":" + mobile +
+                "}";
+        mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.ic_head));
+        iconImage.setImageBitmap(mBitmap);
         back.setVisibility(View.VISIBLE);
         handle.setVisibility(View.VISIBLE);
         title.setText(name);
-        handle.setText("编辑");
+        handle.setText("");
+        handle.setBackgroundResource(R.drawable.edit);
         nameView.setText(name);
         mobileView.setText(mobile);
         remarkView.setText(remark);
@@ -218,7 +231,6 @@ public class ContactItemActivity extends BaseActivity {
     protected void popImage (View  v) {
         Log.i("iconClick", "正在点击icon");
         Log.i("iconClick", v.toString());
-        if (type.equals(2)) return;
         popIconImage = (ImageView) mPopupWindow.getContentView().findViewById(R.id.pop_icon);
         RelativeLayout pop_window = (RelativeLayout) mPopupWindow.getContentView().findViewById(R.id.pop_window);
         popIconImage.setImageBitmap(mBitmap);
