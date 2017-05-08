@@ -59,7 +59,8 @@ public class AddContactPerson extends AppCompatActivity {
         ButterKnife.bind(this);
         back.setVisibility(View.VISIBLE);
         save.setVisibility(View.VISIBLE);
-        save.setText("保存");
+        save.setText("");
+        save.setBackgroundResource(R.drawable.right);
         title.setText("添加联系人");
         cuid = CApplication.user.getId();
         Log.i("login", cuid);

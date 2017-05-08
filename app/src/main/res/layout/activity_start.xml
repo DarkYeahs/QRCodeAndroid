@@ -5,10 +5,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.yeahs.www.qrcode.startActivity"
-    android:background="#b4a3da">
+    android:background="#aee8ff">
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:adjustViewBounds="false"
+        android:adjustViewBounds="true"
         android:src="@drawable/start" />
 </RelativeLayout>

@@ -19,7 +19,7 @@ import java.util.Iterator;
 
 public class baseService {
     public static Activity selActivity = null;
-    private String baseUrl = "http://172.20.10.3:4000";
+    private String baseUrl = "http://192.168.43.23:4000";
     public baseService (Activity activity) {
         selActivity = activity;
     }

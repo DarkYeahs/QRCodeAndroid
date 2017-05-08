@@ -249,7 +249,9 @@ public class ContactItemActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.i("login", name);
+        if (resultCode != RESULT_OK) return;
         if (type.equals(2)) {
+            Log.i("login", "intent" + data.toString());
             id = data.getStringExtra("id");
             cuid = data.getStringExtra("cuid");
             name = data.getStringExtra("name");
