@@ -118,15 +118,15 @@ public class ContactItemActivity extends BaseActivity {
                 break;
         }
         iconText = "{" +
-                "\"cuid\":" + cuid + "," +
-                "\"company\":" + company + "," +
-                "\"company_address\":" + company_address  + "," +
-                "\"name\":" + name +"," +
-                "\"remark\":" + remark + "," +
-                "\"homepage\":" + homepage + "," +
-                "\"job\":" + job + "," +
-                "\"email\":" + email + "," +
-                "\"mobile\":" + mobile +
+                "\"cuid\":\"" + cuid + "\"," +
+                "\"company\":\"" + company + "\"," +
+                "\"company_address\":\"" + company_address  + "\"," +
+                "\"name\":\"" + name +"\"," +
+                "\"remark\":\"" + remark + "\"," +
+                "\"homepage\":\"" + homepage + "\"," +
+                "\"job\":\"" + job + "\"," +
+                "\"email\":\"" + email + "\"," +
+                "\"mobile\":\"" + mobile + "\"" +
                 "}";
         mBitmap = CodeUtils.createImage(iconText, 400, 400, BitmapFactory.decodeResource(getResources(), R.drawable.ic_head));
         iconImage.setImageBitmap(mBitmap);
