@@ -1,6 +1,5 @@
 package com.yeahs.www.qrcode;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
