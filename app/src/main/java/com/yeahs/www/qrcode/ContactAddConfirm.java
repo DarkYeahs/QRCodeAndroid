@@ -34,6 +34,7 @@ public class ContactAddConfirm extends AppCompatActivity {
     @BindView(R.id.button_backward) Button back;
     @BindView(R.id.button_forward) Button confitmBtn;
     private String contactMsg = null;
+    private String cuid = "";
     private ContactPerson contactObject = null;
     private ContactService contactService = null;
     Gson gson = new Gson();
@@ -43,7 +44,8 @@ public class ContactAddConfirm extends AppCompatActivity {
         setContentView(R.layout.activity_contact_add_confirm);
         ButterKnife.bind(this);
         contactService = new ContactService(this);
-        confitmBtn.setText("确认");
+        confitmBtn.setText("");
+        confitmBtn.setBackgroundResource(R.drawable.right);
         confitmBtn.setVisibility(View.VISIBLE);
         back.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
@@ -90,7 +92,7 @@ public class ContactAddConfirm extends AppCompatActivity {
             public JSONObject getParams() {
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("cuid", contactObject.getCuid());
+                    data.put("cuid", CApplication.user.getId());
                     data.put("name", contactObject.getName());
                     data.put("mobile", contactObject.getMobile());
                     data.put("email", contactObject.getEmail());
